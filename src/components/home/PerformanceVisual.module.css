@@ -1,0 +1,131 @@
+.section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: #05080F;
+    overflow: hidden;
+    padding: var(--space-16) var(--space-12);
+}
+
+.bgGlow {
+    position: absolute;
+    top: 50%;
+    right: 20%;
+    transform: translate(50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(34, 197, 94, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    max-width: 1440px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+    align-items: center;
+}
+
+/* Text side */
+.textSide {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+}
+
+.label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-accent-emerald);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    color: var(--color-text-primary);
+    margin: 0;
+}
+
+.titleAccent {
+    color: var(--color-accent-emerald);
+}
+
+.stats {
+    display: flex;
+    gap: var(--space-10);
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.statValue {
+    font-family: var(--font-display);
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    color: var(--color-text-primary);
+}
+
+.statLabel {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* Visual side */
+.visualSide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.canvas {
+    display: block;
+}
+
+@media (max-width: 1024px) {
+    .content {
+        grid-template-columns: 1fr;
+        gap: var(--space-10);
+    }
+
+    .visualSide {
+        order: -1;
+    }
+
+    .canvas {
+        width: 350px !important;
+        height: 350px !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .section {
+        padding: var(--space-12) var(--space-6);
+    }
+
+    .stats {
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+
+    .canvas {
+        width: 280px !important;
+        height: 280px !important;
+    }
+}

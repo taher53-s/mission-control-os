@@ -1,0 +1,214 @@
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: #05080F;
+}
+
+/* Dramatic gradient layers */
+.bgLayer1 {
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 70%;
+    height: 120%;
+    background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.bgLayer2 {
+    position: absolute;
+    bottom: -30%;
+    right: 20%;
+    width: 50%;
+    height: 80%;
+    background: radial-gradient(ellipse at center, rgba(217, 70, 239, 0.06) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 var(--space-12);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* ==================
+   LEFT — Typography
+   ================== */
+
+.left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+}
+
+.titleBlock {
+    /* no extra */
+}
+
+.title {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    line-height: 0.88;
+}
+
+.titleLine1,
+.titleLine2,
+.titleLine3 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    color: var(--color-text-primary);
+}
+
+.titleLine1 {
+    font-size: clamp(4rem, 8vw, 8rem);
+}
+
+.titleLine2 {
+    font-size: clamp(4rem, 8vw, 8rem);
+}
+
+.titleLine3 {
+    font-size: clamp(5rem, 10vw, 10rem);
+    background: linear-gradient(135deg, var(--color-accent-blue) 0%, var(--color-ai-glow) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.5vw, 2rem);
+    font-weight: 300;
+    color: var(--color-text-secondary);
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    margin: 0;
+}
+
+.ctas {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.ctaPrimary {
+    padding: var(--space-4) var(--space-10);
+    background: white;
+    border: none;
+    border-radius: 0;
+    color: #05080F;
+    font-size: var(--text-base);
+    font-weight: 700;
+    font-family: var(--font-ui);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 200ms ease;
+}
+
+.ctaPrimary:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(255, 255, 255, 0.15);
+}
+
+.ctaSecondary {
+    padding: var(--space-4) var(--space-10);
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0;
+    color: var(--color-text-primary);
+    font-size: var(--text-base);
+    font-weight: 600;
+    font-family: var(--font-ui);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: border-color 200ms ease, background 200ms ease;
+}
+
+.ctaSecondary:hover {
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.metaItem {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.metaDivider {
+    width: 24px;
+    height: 1px;
+    background: var(--color-text-muted);
+    opacity: 0.4;
+}
+
+/* ==================
+   RIGHT — Visual
+   ================== */
+
+.right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* ==================
+   Responsive
+   ================== */
+
+@media (max-width: 1024px) {
+    .content {
+        grid-template-columns: 1fr;
+        padding: var(--space-24) var(--space-8) var(--space-12);
+        gap: var(--space-12);
+    }
+
+    .right {
+        order: -1;
+        max-height: 350px;
+    }
+}
+
+@media (max-width: 640px) {
+
+    .titleLine1,
+    .titleLine2 {
+        font-size: 3.5rem;
+    }
+
+    .titleLine3 {
+        font-size: 4.5rem;
+    }
+
+    .ctaPrimary,
+    .ctaSecondary {
+        width: 100%;
+        text-align: center;
+    }
+}
