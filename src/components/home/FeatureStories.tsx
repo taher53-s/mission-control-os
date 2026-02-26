@@ -4,6 +4,8 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import styles from './FeatureStories.module.css';
 
+const ease = [0.22, 1, 0.36, 1] as const;
+
 interface FeatureStory {
     title: string;
     subtitle: string;
@@ -52,6 +54,19 @@ const stories: FeatureStory[] = [
     },
 ];
 
+/* Stagger container per feature section */
+const stagger = {
+    hidden: {},
+    visible: {
+        transition: { staggerChildren: 0.08, delayChildren: 0.1 },
+    },
+};
+
+const fadeUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease } },
+};
+
 function FeatureStorySection({ story, index }: { story: FeatureStory; index: number }) {
     const ref = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
@@ -60,8 +75,8 @@ function FeatureStorySection({ story, index }: { story: FeatureStory; index: num
     });
 
     const y = useTransform(scrollYProgress, [0, 1], [100, 0]);
-    const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.5, 1]);
-    const scale = useTransform(scrollYProgress, [0, 1], [0.92, 1]);
+    const opacity = useTransform(scrollYProgress, [0, 0.4, 1], [0, 0.4, 1]);
+    const scale = useTransform(scrollYProgress, [0, 1], [0.94, 1]);
 
     return (
         <motion.div
@@ -69,31 +84,56 @@ function FeatureStorySection({ story, index }: { story: FeatureStory; index: num
             className={`${styles.story} ${story.align === 'right' ? styles.storyReverse : ''}`}
             style={{ y, opacity, scale }}
         >
-            <div className={styles.textBlock}>
-                <span className={styles.index} style={{ color: story.accent }}>
+            <motion.div
+                className={styles.textBlock}
+                variants={stagger}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.4 }}
+            >
+                <motion.span
+                    className={styles.index}
+                    style={{ color: story.accent }}
+                    variants={fadeUp}
+                >
                     {String(index + 1).padStart(2, '0')}
-                </span>
-                <h3 className={styles.featureTitle}>
+                </motion.span>
+                <motion.h3 className={styles.featureTitle} variants={fadeUp}>
                     <span>{story.title}</span>
                     <span className={styles.featureSubtitle} style={{ color: story.accent }}>
                         {story.subtitle}
                     </span>
-                </h3>
-                <p className={styles.featureDescription}>{story.description}</p>
-                <div className={styles.featureLine} style={{ background: story.accent }} />
-            </div>
+                </motion.h3>
+                <motion.p className={styles.featureDescription} variants={fadeUp}>
+                    {story.description}
+                </motion.p>
+                <motion.div
+                    className={styles.featureLine}
+                    style={{ background: story.accent }}
+                    variants={fadeUp}
+                />
+            </motion.div>
+
             <div className={styles.visualBlock}>
-                <div
+                {/* Feature card with 3D hover tilt + spring return */}
+                <motion.div
                     className={styles.visualInner}
                     style={{
                         boxShadow: `0 0 80px ${story.accent}20, 0 0 160px ${story.accent}10`,
                         borderColor: `${story.accent}15`,
                     }}
+                    whileHover={{
+                        rotateX: -4,
+                        rotateY: 6,
+                        scale: 1.04,
+                        boxShadow: `0 0 100px ${story.accent}30, 0 0 200px ${story.accent}15`,
+                    }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                 >
                     <span className={styles.visualIcon} style={{ color: story.accent }}>
                         {story.visual}
                     </span>
-                </div>
+                </motion.div>
             </div>
         </motion.div>
     );

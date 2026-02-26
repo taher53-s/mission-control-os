@@ -11,6 +11,8 @@
     padding: var(--space-20) var(--space-12);
     max-width: 1440px;
     margin: 0 auto;
+    will-change: transform, opacity;
+    perspective: 1000px;
 }
 
 .storyReverse {
@@ -32,7 +34,7 @@
     font-family: var(--font-mono);
     font-size: var(--text-sm);
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
 }
 
 .featureTitle {
@@ -40,8 +42,8 @@
     font-size: clamp(2.5rem, 5vw, 5rem);
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: -0.03em;
-    line-height: 0.95;
+    letter-spacing: -0.04em;
+    line-height: 0.93;
     color: var(--color-text-primary);
     margin: 0;
     display: flex;
@@ -50,6 +52,7 @@
 
 .featureSubtitle {
     font-weight: 700;
+    letter-spacing: -0.03em;
 }
 
 .featureDescription {
@@ -67,11 +70,12 @@
     border-radius: 0;
 }
 
-/* Visual block */
+/* Visual block with 3D perspective */
 .visualBlock {
     display: flex;
     align-items: center;
     justify-content: center;
+    perspective: 800px;
 }
 
 .visualInner {
@@ -83,6 +87,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    will-change: transform;
+    transform-style: preserve-3d;
+    cursor: default;
 }
 
 .visualIcon {
@@ -90,6 +97,9 @@
     opacity: 0.8;
 }
 
+/* ==================
+   Tablet
+   ================== */
 @media (max-width: 1024px) {
     .story {
         grid-template-columns: 1fr;
@@ -102,6 +112,11 @@
         direction: ltr;
     }
 
+    .featureTitle {
+        font-size: 3rem;
+        letter-spacing: -0.035em;
+    }
+
     .visualInner {
         width: 240px;
         height: 240px;
@@ -112,8 +127,43 @@
     }
 }
 
+/* ==================
+   Mobile — Dedicated layout
+   ================== */
 @media (max-width: 640px) {
+    .story {
+        padding: var(--space-12) var(--space-6);
+        min-height: 80vh;
+    }
+
     .featureTitle {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
+        letter-spacing: -0.025em;
+        line-height: 0.95;
+        font-weight: 800;
+    }
+
+    .featureSubtitle {
+        font-weight: 700;
+        letter-spacing: -0.02em;
+    }
+
+    .featureDescription {
+        font-size: var(--text-base);
+        line-height: 1.6;
+    }
+
+    .index {
+        font-size: var(--text-xs);
+        letter-spacing: 0.1em;
+    }
+
+    .visualInner {
+        width: 200px;
+        height: 200px;
+    }
+
+    .visualIcon {
+        font-size: 3rem;
     }
 }

@@ -28,6 +28,7 @@
     z-index: 1;
     max-width: 1200px;
     width: 100%;
+    will-change: transform, opacity;
 }
 
 .statement {
@@ -42,7 +43,7 @@
     font-size: clamp(4rem, 12vw, 12rem);
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.06em;
     color: var(--color-text-primary);
 }
 
@@ -51,7 +52,7 @@
     font-size: clamp(4rem, 12vw, 12rem);
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.06em;
     background: linear-gradient(90deg, var(--color-accent-blue), var(--color-ai-glow));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -75,13 +76,34 @@
     font-weight: 300;
 }
 
+@media (max-width: 1024px) {
+
+    .line1,
+    .line2 {
+        letter-spacing: -0.05em;
+        line-height: 0.94;
+    }
+}
+
 @media (max-width: 640px) {
     .section {
         padding: var(--space-16) var(--space-6);
     }
 
+    .line1,
+    .line2 {
+        font-size: 3.5rem;
+        letter-spacing: -0.04em;
+        font-weight: 800;
+    }
+
     .rule {
         width: 80px;
         height: 3px;
+    }
+
+    .descriptor {
+        font-size: 1rem;
+        line-height: 1.5;
     }
 }

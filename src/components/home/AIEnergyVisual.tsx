@@ -1,10 +1,27 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import styles from './AIEnergyVisual.module.css';
 
+/**
+ * AI Energy Visual — canvas-based animated energy form.
+ * Reacts to mouse position for cursor-based parallax.
+ */
 export function AIEnergyVisual() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const mouseRef = useRef({ x: 0.5, y: 0.5 });
+
+    const handleMouseMove = useCallback((e: MouseEvent) => {
+        mouseRef.current = {
+            x: e.clientX / window.innerWidth,
+            y: e.clientY / window.innerHeight,
+        };
+    }, []);
+
+    useEffect(() => {
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, [handleMouseMove]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -27,13 +44,21 @@ export function AIEnergyVisual() {
             time += 0.006;
             ctx.clearRect(0, 0, size, size);
 
-            const cx = size / 2;
-            const cy = size / 2;
+            const mouse = mouseRef.current;
+            // Cursor parallax offset — subtle depth shift
+            const parallaxX = (mouse.x - 0.5) * 20;
+            const parallaxY = (mouse.y - 0.5) * 20;
+            // Glow intensity varies with cursor distance from center
+            const cursorDist = Math.sqrt((mouse.x - 0.5) ** 2 + (mouse.y - 0.5) ** 2);
+            const glowIntensity = 1 + cursorDist * 0.5;
 
-            // Deep outer atmospheric glow
+            const cx = size / 2 + parallaxX;
+            const cy = size / 2 + parallaxY;
+
+            // Deep outer atmospheric glow — intensity varies
             const atmosphere = ctx.createRadialGradient(cx, cy, 80, cx, cy, 300);
-            atmosphere.addColorStop(0, 'rgba(217, 70, 239, 0.12)');
-            atmosphere.addColorStop(0.3, 'rgba(56, 189, 248, 0.06)');
+            atmosphere.addColorStop(0, `rgba(217, 70, 239, ${0.12 * glowIntensity})`);
+            atmosphere.addColorStop(0.3, `rgba(56, 189, 248, ${0.06 * glowIntensity})`);
             atmosphere.addColorStop(0.7, 'rgba(56, 189, 248, 0.02)');
             atmosphere.addColorStop(1, 'transparent');
             ctx.fillStyle = atmosphere;
@@ -65,19 +90,19 @@ export function AIEnergyVisual() {
                     cy + Math.sin(arcStart + arcLen) * arcRadius,
                 );
                 arcGrad.addColorStop(0, 'rgba(56, 189, 248, 0)');
-                arcGrad.addColorStop(0.5, 'rgba(217, 70, 239, 0.4)');
+                arcGrad.addColorStop(0.5, `rgba(217, 70, 239, ${0.4 * glowIntensity})`);
                 arcGrad.addColorStop(1, 'rgba(56, 189, 248, 0)');
                 ctx.strokeStyle = arcGrad;
                 ctx.lineWidth = 2;
                 ctx.stroke();
             }
 
-            // Core sphere with internal glow
+            // Core sphere
             const coreRadius = 65 + Math.sin(time * 2) * 4;
 
             // Core outer glow
             const coreGlow = ctx.createRadialGradient(cx, cy, coreRadius * 0.5, cx, cy, coreRadius * 1.8);
-            coreGlow.addColorStop(0, 'rgba(217, 70, 239, 0.3)');
+            coreGlow.addColorStop(0, `rgba(217, 70, 239, ${0.3 * glowIntensity})`);
             coreGlow.addColorStop(0.5, 'rgba(139, 92, 246, 0.1)');
             coreGlow.addColorStop(1, 'transparent');
             ctx.fillStyle = coreGlow;
@@ -86,10 +111,7 @@ export function AIEnergyVisual() {
             ctx.fill();
 
             // Core solid
-            const coreGrad = ctx.createRadialGradient(
-                cx - 15, cy - 15, 8,
-                cx, cy, coreRadius,
-            );
+            const coreGrad = ctx.createRadialGradient(cx - 15, cy - 15, 8, cx, cy, coreRadius);
             coreGrad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
             coreGrad.addColorStop(0.2, 'rgba(217, 70, 239, 0.8)');
             coreGrad.addColorStop(0.5, 'rgba(139, 92, 246, 0.6)');
@@ -100,7 +122,7 @@ export function AIEnergyVisual() {
             ctx.fillStyle = coreGrad;
             ctx.fill();
 
-            // Orbiting particles — fast, energetic
+            // Orbiting particles
             for (let i = 0; i < 12; i++) {
                 const speed = 0.3 + (i % 4) * 0.15;
                 const angle = time * speed + (i * Math.PI * 2) / 12;
@@ -117,7 +139,6 @@ export function AIEnergyVisual() {
                 ];
                 const color = colors[i % colors.length]!;
 
-                // Particle glow
                 const pGlow = ctx.createRadialGradient(px, py, 0, px, py, pSize * 6);
                 pGlow.addColorStop(0, color);
                 pGlow.addColorStop(1, 'transparent');
@@ -126,7 +147,6 @@ export function AIEnergyVisual() {
                 ctx.arc(px, py, pSize * 6, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Particle core
                 ctx.beginPath();
                 ctx.arc(px, py, pSize, 0, Math.PI * 2);
                 ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
