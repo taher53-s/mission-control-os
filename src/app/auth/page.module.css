@@ -1,0 +1,103 @@
+.container {
+    min-height: 100vh;
+    background: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-8);
+}
+
+.card {
+    width: 100%;
+    max-width: 420px;
+    padding: var(--space-12) var(--space-10);
+    text-align: center;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-3);
+}
+
+.logoOrb {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 40%, var(--color-ai-glow), var(--color-accent-violet));
+    box-shadow: 0 0 40px var(--color-ai-glow-medium);
+}
+
+.logoText {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0;
+    letter-spacing: -0.025em;
+}
+
+.tagline {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-10) 0;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    font-size: var(--text-base);
+    font-family: var(--font-ui);
+    outline: none;
+    transition: border-color var(--duration-micro) var(--ease-micro);
+}
+
+.input:focus {
+    border-color: var(--color-border-active);
+}
+
+.input::placeholder {
+    color: var(--color-text-muted);
+}
+
+.button {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    background: linear-gradient(135deg, var(--color-accent-blue), var(--color-accent-violet));
+    border: none;
+    border-radius: var(--radius-md);
+    color: white;
+    font-size: var(--text-base);
+    font-weight: 600;
+    font-family: var(--font-ui);
+    cursor: pointer;
+    transition: opacity var(--duration-micro) var(--ease-micro),
+        transform var(--duration-micro) var(--ease-micro);
+}
+
+.button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+.button:active {
+    transform: translateY(0);
+}
+
+.terms {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin: var(--space-6) 0 0 0;
+}

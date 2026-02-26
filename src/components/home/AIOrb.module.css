@@ -1,0 +1,24 @@
+.orbContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 400px;
+    height: 400px;
+}
+
+.canvas {
+    display: block;
+}
+
+@media (max-width: 640px) {
+    .orbContainer {
+        width: 280px;
+        height: 280px;
+    }
+
+    .canvas {
+        width: 280px !important;
+        height: 280px !important;
+    }
+}
