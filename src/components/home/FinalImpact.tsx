@@ -13,18 +13,18 @@ export function FinalImpact() {
         offset: ['start end', 'center center'],
     });
 
-    const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-    const opacity = useTransform(scrollYProgress, [0, 0.6, 1], [0, 0.6, 1]);
+    const scale = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
+    const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.5, 1]);
 
     return (
         <section ref={ref} className={styles.section}>
             <motion.div className={styles.content} style={{ scale, opacity }}>
                 <motion.h2
                     className={styles.headline}
-                    initial={{ opacity: 0, y: 60 }}
+                    initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.4 }}
-                    transition={{ duration: 1, ease }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.8, ease }}
                 >
                     <span className={styles.line1}>CONTROL</span>
                     <span className={styles.line2}>EVERYTHING.</span>
@@ -34,14 +34,14 @@ export function FinalImpact() {
                     initial={{ scaleX: 0 }}
                     whileInView={{ scaleX: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.3, ease }}
+                    transition={{ duration: 0.5, delay: 0.2, ease }}
                 />
                 <motion.button
                     type="button"
                     className={styles.cta}
-                    whileHover={{ scale: 1.04, y: -4 }}
-                    whileTap={{ scale: 0.97 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 22 }}
+                    whileHover={{ scale: 1.03, y: -3 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 >
                     BEGIN NOW
                 </motion.button>
@@ -51,8 +51,6 @@ export function FinalImpact() {
                 <span className={styles.footerText}>MISSION CONTROL OS</span>
                 <span className={styles.footerDivider}>—</span>
                 <span className={styles.footerText}>V3.0</span>
-                <span className={styles.footerDivider}>—</span>
-                <span className={styles.footerText}>BUILT FOR THE RELENTLESS</span>
             </footer>
         </section>
     );

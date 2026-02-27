@@ -8,26 +8,25 @@ import { AIEnergyVisual } from './AIEnergyVisual';
 /* Custom easing — cinematic expo-out */
 const ease = [0.22, 1, 0.36, 1] as const;
 
-/* Stagger variant container */
+/* Stagger variant container — tightened timing */
 const titleContainer = {
     hidden: {},
     visible: {
         transition: {
-            staggerChildren: 0.12,
-            delayChildren: 0.1,
+            staggerChildren: 0.1,
+            delayChildren: 0.05,
         },
     },
 };
 
-/* Per-line reveal — vertical translate + opacity */
+/* Per-line reveal — controlled, not flashy */
 const titleLine = {
-    hidden: { opacity: 0, y: 50, rotateX: -8 },
+    hidden: { opacity: 0, y: 40 },
     visible: {
         opacity: 1,
         y: 0,
-        rotateX: 0,
         transition: {
-            duration: 1,
+            duration: 0.8,
             ease,
         },
     },
@@ -41,20 +40,29 @@ export function DominantHero() {
         target: sectionRef,
         offset: ['start start', 'end start'],
     });
-    const heroScale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
-    const heroOpacity = useTransform(scrollYProgress, [0, 0.6, 1], [1, 1, 0]);
+
+    /* Hero compresses as user scrolls: scale, opacity, background darken */
+    const heroScale = useTransform(scrollYProgress, [0, 0.8], [1, 0.92]);
+    const heroOpacity = useTransform(scrollYProgress, [0, 0.5, 0.85], [1, 1, 0]);
+    /* AI visual recedes in Z-space */
+    const visualScale = useTransform(scrollYProgress, [0, 0.7], [1, 0.85]);
+    const visualOpacity = useTransform(scrollYProgress, [0, 0.6, 0.9], [1, 0.8, 0]);
+    /* Background darkens subtly */
+    const bgDarken = useTransform(scrollYProgress, [0, 0.8], [0, 0.4]);
 
     return (
         <section ref={sectionRef} className={styles.hero}>
             {/* Background gradient layers */}
             <div className={styles.bgLayer1} />
             <div className={styles.bgLayer2} />
+            {/* Scroll-linked background darken overlay */}
+            <motion.div className={styles.bgDarken} style={{ opacity: bgDarken }} aria-hidden="true" />
 
             <motion.div
                 className={styles.content}
                 style={{ scale: heroScale, opacity: heroOpacity }}
             >
-                {/* Left — Typography with staggered choreography */}
+                {/* Left — Typography */}
                 <div className={styles.left}>
                     <motion.div
                         className={styles.titleBlock}
@@ -77,18 +85,18 @@ export function DominantHero() {
 
                     <motion.p
                         className={styles.subtitle}
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.9, delay: 0.55, ease }}
+                        transition={{ duration: 0.7, delay: 0.45, ease }}
                     >
-                        Your Life. Reengineered.
+                        Reengineered.
                     </motion.p>
 
                     <motion.div
                         className={styles.ctas}
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: 0.8, ease }}
+                        transition={{ duration: 0.6, delay: 0.65, ease }}
                     >
                         <motion.button
                             type="button"
@@ -102,34 +110,33 @@ export function DominantHero() {
                         <motion.button
                             type="button"
                             className={styles.ctaSecondary}
-                            whileHover={{ scale: 1.03, y: -2, borderColor: 'rgba(255,255,255,0.5)' }}
+                            whileHover={{ scale: 1.03, y: -2 }}
                             whileTap={{ scale: 0.98 }}
                             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                         >
-                            Explore Features
+                            Explore
                         </motion.button>
                     </motion.div>
 
                     <motion.div
                         className={styles.meta}
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.6, delay: 1.1 }}
+                        animate={{ opacity: 0.5 }}
+                        transition={{ duration: 0.5, delay: 0.9 }}
                     >
                         <span className={styles.metaItem}>v3.0</span>
                         <span className={styles.metaDivider} />
                         <span className={styles.metaItem}>AI-NATIVE</span>
-                        <span className={styles.metaDivider} />
-                        <span className={styles.metaItem}>NEXT GEN</span>
                     </motion.div>
                 </div>
 
-                {/* Right — Visual with cursor-based parallax */}
+                {/* Right — Visual recedes on scroll */}
                 <motion.div
                     className={styles.right}
-                    initial={{ opacity: 0, scale: 0.82 }}
+                    style={{ scale: visualScale, opacity: visualOpacity }}
+                    initial={{ opacity: 0, scale: 0.85 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1.4, delay: 0.25, ease }}
+                    transition={{ duration: 1.2, delay: 0.2, ease }}
                 >
                     <AIEnergyVisual />
                 </motion.div>

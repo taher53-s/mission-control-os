@@ -11,9 +11,9 @@ export function PowerStatement() {
         offset: ['start end', 'end start'],
     });
 
-    const y = useTransform(scrollYProgress, [0, 1], [80, -80]);
-    const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
-    const scale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.9, 1, 1, 0.95]);
+    const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
+    const opacity = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0, 1, 1, 0]);
+    const scale = useTransform(scrollYProgress, [0, 0.25, 0.75, 1], [0.94, 1, 1, 0.96]);
 
     return (
         <section ref={ref} className={styles.section}>
@@ -28,8 +28,7 @@ export function PowerStatement() {
                 </h2>
                 <div className={styles.rule} />
                 <p className={styles.descriptor}>
-                    An operating system that learns, adapts, and evolves
-                    with every interaction. Not a tool — a system.
+                    Not a tool. A system.
                 </p>
             </motion.div>
         </section>
